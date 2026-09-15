@@ -1,0 +1,13 @@
+type: markdown
+content: >-
+  {% set entity = 'sensor.public_transport_dashboard' %}
+  {% set issues = state_attr(entity, 'source_issues') or {} %}
+  {% if states(entity) in ['unavailable', 'unknown'] %}
+  **Keine gültige Datenquelle verfügbar.**
+  {% elif issues %}
+  **Eingeschränkte Anzeige:** {{ issues | count }} Quelle(n) fehlen oder sind veraltet.
+  {% elif states(entity) == '0' %}
+  Keine Abfahrten im eingestellten Zeitraum.
+  {% else %}
+  {{ states(entity) }} Abfahrten · {{ state_attr(entity, 'active_sources') }} aktive Quelle(n).
+  {% endif %}

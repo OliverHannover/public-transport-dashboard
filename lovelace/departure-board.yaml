@@ -1,0 +1,103 @@
+type: custom:flex-table-card
+title: Abfahrten
+entities:
+  - sensor.public_transport_dashboard
+strict: true
+clickable: false
+disable_header_sort: true
+max_rows: 30
+columns:
+  - name: Linie
+    data: departures
+    modify: >-
+      (() => {
+        const label = document.createElement('strong');
+        label.textContent = x.line ?? '–';
+        const icon = document.createElement('ha-icon');
+        const allowed = ['mdi:bus','mdi:tram','mdi:subway-variant','mdi:train','mdi:ferry'];
+        icon.setAttribute('icon', allowed.includes(x.icon) ? x.icon : 'mdi:public-transport');
+        icon.setAttribute('aria-label', String(x.transportation_type ?? 'ÖPNV'));
+        return icon.outerHTML + ' ' + label.outerHTML;
+      })()
+  - name: Richtung
+    data: departures
+    modify: >-
+      (() => {
+        const destination = document.createElement('span');
+        destination.className = 'destination';
+        destination.textContent = x.destination_short ?? x.destination ?? '–';
+        destination.title = String(x.destination ?? '');
+        const detail = document.createElement('small');
+        detail.className = 'detail';
+        detail.textContent = [x.stop_group, x.platform == null ? null : 'Gl. / Steig ' + x.platform]
+          .filter(Boolean).join(' · ');
+        return destination.outerHTML + detail.outerHTML;
+      })()
+  - name: Abfahrt
+    data: departures
+    align: right
+    modify: >-
+      (() => {
+        const time = document.createElement('span');
+        const date = new Date(x.departure_time);
+        time.textContent = Number.isNaN(date.getTime()) ? '–' :
+          date.toLocaleTimeString('de-DE', {hour:'2-digit',minute:'2-digit'});
+        const delay = document.createElement('small');
+        const value = x.delay == null ? NaN : Number(x.delay);
+        delay.className = 'delay ' + (x.cancelled ? 'late' : !Number.isFinite(value) ? 'unknown' :
+          value >= 5 ? 'late' : value > 0 ? 'warn' : 'ontime');
+        delay.textContent = x.cancelled ? 'Ausfall' : !Number.isFinite(value) ? 'k. A.' :
+          value === 0 ? 'pünktlich' :
+          (value > 0 ? '+' : '') + Number(value.toFixed(1)).toLocaleString('de-DE') + ' min';
+        return time.outerHTML + delay.outerHTML;
+      })()
+  - name: In min
+    data: departures
+    align: right
+    modify: >-
+      (() => {
+        const minutes = document.createElement('strong');
+        const n = x.countdown_minutes == null ? NaN : Number(x.countdown_minutes);
+        minutes.className = 'countdown';
+        minutes.textContent = x.cancelled ? '–' :
+          !Number.isFinite(n) ? '–' : n <= 0 ? 'jetzt' : String(Math.ceil(n));
+        return minutes.outerHTML;
+      })()
+css:
+  ha-card: >-
+    background: #111827; color: #e5edf9; border: 1px solid #263449;
+    border-radius: 20px; box-shadow: 0 10px 28px #0003;
+    overflow: hidden; container-type: inline-size;
+    --primary-text-color: #e5edf9; --secondary-text-color: #9baec7;
+  ".card-header": "color: #f1f5fb; font-weight: 700; padding: 20px 16px 10px;"
+  table: >-
+    width: 100%; table-layout: fixed; border-collapse: collapse;
+    padding: 0; font-size: 14px; font-variant-numeric: tabular-nums; color: #e5edf9;
+  "thead th": "height: 34px; color: #9baec7; font-size: 11px; font-weight: 600;"
+  "th, tr td": "padding: 12px 8px; vertical-align: middle; overflow: hidden;"
+  "tbody tr": "border-top: 1px solid #263449;"
+  "tbody tr:nth-child(even)": "background: #162033;"
+  "th:first-child, td:first-child": "width: 65px; padding-left: 12px;"
+  "th:nth-child(3), td:nth-child(3)": "width: 65px;"
+  "th:last-child, td:last-child": "width: 48px; padding-right: 12px;"
+  "ha-icon": "display: inline-block; --mdc-icon-size: 18px; color: #7dd3fc; vertical-align: middle;"
+  strong: "font-weight: 750;"
+  ".destination": "display: block; font-weight: 550; overflow-wrap: anywhere;"
+  ".detail": "display: block; margin-top: 4px; font-size: 10px; color: #9baec7; overflow-wrap: anywhere;"
+  ".delay": "display: block; margin-top: 4px; font-size: 10px; white-space: nowrap;"
+  ".ontime": "color: #6ee7b7;"
+  ".warn": "color: #fcd34d;"
+  ".late": "color: #fda4af;"
+  ".unknown": "color: #9baec7;"
+  ".countdown": "font-size: 19px; color: #f1f5fb;"
+  "tbody:empty::after": >-
+    content: "Keine Abfahrten – Quellen und Zeitraum prüfen";
+    display: block; padding: 18px; width: 240px; color: #9baec7;
+  "@container (max-width: 360px)": >-
+    th, tr td { padding: 10px 5px; }
+    th:first-child, td:first-child { width: 52px; padding-left: 8px; }
+    th:nth-child(3), td:nth-child(3) { width: 54px; }
+    th:last-child, td:last-child { width: 39px; padding-right: 8px; }
+    table { font-size: 12px; }
+    ha-icon { --mdc-icon-size: 16px; }
+    .countdown { font-size: 17px; }
