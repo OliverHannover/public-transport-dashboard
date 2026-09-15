@@ -13,7 +13,7 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: pip install pytest-homeassistant-custom-component ruff
       - run: ruff check --config pyproject.toml custom_components tests tools
-      - run: pytest tests/ha -v
+      - run: python -m pytest tests/ha -v
   hassfest:
     runs-on: ubuntu-latest
     steps:
