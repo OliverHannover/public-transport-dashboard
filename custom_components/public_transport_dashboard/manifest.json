@@ -1,0 +1,13 @@
+{
+  "domain": "public_transport_dashboard",
+  "name": "Public Transport Dashboard",
+  "codeowners": ["@OliverHannover"],
+  "config_flow": true,
+  "documentation": "https://github.com/OliverHannover/public-transport-dashboard#readme",
+  "integration_type": "helper",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/OliverHannover/public-transport-dashboard/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "1.0.1"
+}

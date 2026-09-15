@@ -1,0 +1,63 @@
+{
+  "title": "Public Transport Dashboard",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up departure board",
+        "description": "Select source sensors in priority order. New sources must have a departures list. The first source wins duplicate conflicts.",
+        "data": {
+          "source_entities": "Source sensors",
+          "max_departures": "Maximum departures",
+          "horizon": "Look ahead (minutes)",
+          "stale_after": "Source stale after minutes (0 = disabled)"
+        }
+      },
+      "details": {
+        "title": "Stops and delay units",
+        "description": "For each sensor: group: field = stop group (empty = separate stop); unit: field = source delay unit. Use identical groups only for the same stop."
+      }
+    },
+    "error": {
+      "invalid_source": "Select at least one sensor with a departures list. The dashboard itself cannot be a source."
+    },
+    "abort": {
+      "already_configured": "The board is already configured. Use its options to make changes."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Set up departure board",
+        "description": "Select source sensors in priority order. New sources must have a departures list. The first source wins duplicate conflicts.",
+        "data": {
+          "source_entities": "Source sensors",
+          "max_departures": "Maximum departures",
+          "horizon": "Look ahead (minutes)",
+          "stale_after": "Source stale after minutes (0 = disabled)"
+        }
+      },
+      "details": {
+        "title": "Stops and delay units",
+        "description": "For each sensor: group: field = stop group (empty = separate stop); unit: field = source delay unit. Use identical groups only for the same stop."
+      }
+    },
+    "error": {
+      "invalid_source": "Select at least one sensor with a departures list. The dashboard itself cannot be a source."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "departures": {
+        "name": "Departures"
+      }
+    }
+  },
+  "selector": {
+    "delay_unit": {
+      "options": {
+        "minutes": "Minutes",
+        "seconds": "Seconds"
+      }
+    }
+  }
+}
