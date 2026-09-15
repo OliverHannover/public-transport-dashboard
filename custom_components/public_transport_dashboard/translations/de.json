@@ -1,0 +1,63 @@
+{
+  "title": "Public Transport Dashboard",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Abfahrtstafel einrichten",
+        "description": "Quellen in Prioritätsreihenfolge auswählen. Jede neue Quelle muss eine departures-Liste besitzen. Die zuerst ausgewählte Quelle gewinnt bei Dubletten.",
+        "data": {
+          "source_entities": "Quellsensoren",
+          "max_departures": "Maximale Abfahrten",
+          "horizon": "Vorschau in Minuten",
+          "stale_after": "Quelle veraltet nach Minuten (0 = aus)"
+        }
+      },
+      "details": {
+        "title": "Haltestellen und Zeiteinheiten",
+        "description": "Je Sensor: group: = Haltestellengruppe (leer = eigene Haltestelle); unit: = Einheit der Quell-Verspätung. Nur Quellen derselben Haltestelle gleich benennen. minutes = Minuten, seconds = Sekunden."
+      }
+    },
+    "error": {
+      "invalid_source": "Mindestens einen Sensor mit departures-Liste wählen. Die Abfahrtstafel selbst ist keine gültige Quelle."
+    },
+    "abort": {
+      "already_configured": "Die Abfahrtstafel ist bereits eingerichtet. Änderungen sind über die Optionen möglich."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Abfahrtstafel einrichten",
+        "description": "Quellen in Prioritätsreihenfolge auswählen. Jede neue Quelle muss eine departures-Liste besitzen. Die zuerst ausgewählte Quelle gewinnt bei Dubletten.",
+        "data": {
+          "source_entities": "Quellsensoren",
+          "max_departures": "Maximale Abfahrten",
+          "horizon": "Vorschau in Minuten",
+          "stale_after": "Quelle veraltet nach Minuten (0 = aus)"
+        }
+      },
+      "details": {
+        "title": "Haltestellen und Zeiteinheiten",
+        "description": "Je Sensor: group: = Haltestellengruppe (leer = eigene Haltestelle); unit: = Einheit der Quell-Verspätung. Nur Quellen derselben Haltestelle gleich benennen. minutes = Minuten, seconds = Sekunden."
+      }
+    },
+    "error": {
+      "invalid_source": "Mindestens einen Sensor mit departures-Liste wählen. Die Abfahrtstafel selbst ist keine gültige Quelle."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "departures": {
+        "name": "Abfahrten"
+      }
+    }
+  },
+  "selector": {
+    "delay_unit": {
+      "options": {
+        "minutes": "Minuten",
+        "seconds": "Sekunden"
+      }
+    }
+  }
+}
